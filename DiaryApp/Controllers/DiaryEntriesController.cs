@@ -8,7 +8,7 @@ namespace DiaryApp.Controllers
     {
         private readonly ApplicationDbContext _db;
 
-        public DiaryEntriesController(ApplicationDbContext db)      // from program.cs
+        public DiaryEntriesController(ApplicationDbContext db)      // from program.cs      - DI
         {
             _db = db;
         }
@@ -19,5 +19,20 @@ namespace DiaryApp.Controllers
 
             return View(objDiaryEntryList);
         }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(DiaryEntry obj)
+        {
+            _db.DiaryEntries.Add(obj);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+            //return RedirectToAction("Index", "Home");       // Go to index page of Home Controller
+        }
+
     }
 }
