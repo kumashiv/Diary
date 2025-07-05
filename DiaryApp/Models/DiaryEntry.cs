@@ -2,16 +2,14 @@
 
 namespace DiaryApp.Models
 {
-    public class DiaryEntry     //Table name
+    public class DiaryEntry
     {
-        //[Key]
-        public int Id { get; set; }     //If Id - it's primary key by default
+        public int Id { get; set; }
         [Required]
-        public string Title{ get; set; } = string.Empty;
+        public string Title { get; set; } = string.Empty;
         [Required]
-        public string Content { get; set; } = string.Empty ;
+        public string Content { get; set; } = string.Empty;
         [Required]
         public DateTime Created { get; set; } = DateTime.Now;
     }
 }
-
