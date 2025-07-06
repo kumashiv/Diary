@@ -28,10 +28,55 @@ namespace DiaryApp.Controllers
         [HttpPost]
         public IActionResult Create(DiaryEntry obj)
         {
-            _db.DiaryEntries.Add(obj);
-            _db.SaveChanges();
-            return RedirectToAction("Index");
-            //return RedirectToAction("Index", "Home");       // Go to index page of Home Controller
+            if (obj != null && obj.Title.Length < 3)
+            {
+                ModelState.AddModelError("Title", "Title too short");
+            }
+            if (ModelState.IsValid)
+            {
+                _db.DiaryEntries.Add(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+                //return RedirectToAction("Index", "Home");       // Go to index page of Home Controller
+            }
+
+            return View(obj);       // page reloads and sends back the data entered by user
+        }
+
+        public IActionResult Edit(int? id)
+        {
+            
+            if(id == null || id == 0)
+            {
+                return NotFound();
+            }
+
+            DiaryEntry? diaryEntry = _db.DiaryEntries.Find(id);
+
+            if (diaryEntry == null)
+            {
+                return NotFound();
+            }
+
+            return View(diaryEntry);
+        }
+
+
+        [HttpPost]
+        public IActionResult Edit(DiaryEntry obj)
+        {
+            if (obj != null && obj.Title.Length < 3)
+            {
+                ModelState.AddModelError("Title", "Title too short");
+            }
+            if (ModelState.IsValid)
+            {
+                _db.DiaryEntries.Update(obj);   //Updates
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(obj);       // page reloads and sends back the data entered by user
         }
 
     }
